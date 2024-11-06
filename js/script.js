@@ -21,11 +21,15 @@ Inserire un bottone che al click faccia il fetch per altre 10 mail (sostituendo 
 *********************************************************/
 
 
-// Dichiaro la mia <ul> come Elemento HTML
+// Dichiaro gli Elementi HTML
 const emailList = document.getElementById('emailList');
+const refreshButton = document.getElementById('refreshEmails_btn');
 
 // Dichiaro la variabile che stabilisce il numero di Email da aggiungere
-const emailNumber = 10;
+const repetitionsNumber = 10;
+
+// Dichiaro la radice dell ID da assegnare a ciascun NODE che rappresenta una Email
+const nodeIdRoot = 'addedEmail_';
 
 
 
@@ -46,12 +50,12 @@ let addEmail = ( (repetitions) => {
             let myItem = document.createElement('li');
     
             // Definisco CLASS + innerHTML del mio <li> (Email) da aggiungere
-            myItem.setAttribute('id', `Email ${i}`);
+            // myItem.setAttribute('id', `${nodeIdRoot}${i}`);
             myItem.classList.add('list-group-item', 'my-2');
             myItem.innerHTML=`
             <div class="row">
                 <div class="col-10 d-flex align-items-center">
-                    <p class="m-0 text-primary"><i class="fa-solid fa-envelope"></i> ${Email}</p>
+                    <p class="m-0 text-primary" id="${nodeIdRoot}${i}"><i class="fa-solid fa-envelope"></i> ${Email}</p>
                 </div>
                 <div class="col-2 d-flex justify-content-between align-items-center">
                     <button class="btn btn-sm btn-secondary">
@@ -73,33 +77,36 @@ let addEmail = ( (repetitions) => {
 
 
 
+// Dichiaro la FUNCTION per refreshare la lista tramite SOSTITUZIONE delle Email
+let refreshEmail = ( (repetitions) => {
+
+    for (let i=0; i < repetitions; i++) {
+
+        // FETCH del valore tramite API
+        fetch('https://flynn.boolean.careers/exercises/api/random/mail')
+        .then(response => response.json())
+        .then( (output) => {
+
+            // Dichiaro il valore output del FETCH
+            let Email = output.response;
+
+            // Dichiaro l'elemento HTML dove inserire la nuova Email
+            let refreshedEmail = document.getElementById(`${nodeIdRoot}${i}`);
+    
+            // Aggiorno l'innerHTML dell'elemento
+            refreshedEmail.innerHTML = `<i class="fa-solid fa-envelope"></i> ${Email}`;
+
+        })
+        
+    }  
+
+})
 
 
+// Eseguo la funzione al caricamento della pagina
+addEmail(repetitionsNumber);
 
-
-
-addEmail(emailNumber);
-
-
-
-
-
-// // Definisco CLASS + innerHTML del mio <li> (Email) da aggiungere
-            // myItem.setAttribute('id', `Email ${i + 1}`);
-            // myItem.classList.add('list-group-item', 'my-2');
-            // myItem.innerHTML=`
-            // <div class="row">
-            //     <div class="col-10 d-flex align-items-center">
-            //         <p class="m-0 text-primary"><i class="fa-solid fa-envelope"></i> ${Email}</p>
-            //     </div>
-            //     <div class="col-2 d-flex justify-content-between align-items-center">
-            //         <button class="btn btn-sm btn-secondary">
-            //             Send message
-            //         </button>
-            //         <i class="fa-solid fa-trash text-secondary"></i>
-            //     </div>
-            // </div>
-            // `;
-
-            // // CREAZIONE NODE <li>
-            // emailList.appendChild(myItem);
+// Al click, eseguo la funzione di refresh
+refreshButton.addEventListener('click', () => {
+    refreshEmail(repetitionsNumber);
+});
