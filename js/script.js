@@ -16,46 +16,59 @@ Inserire un bottone che al click faccia il fetch per altre 10 mail (sostituendo 
 | # SVOLGIMENTO
 *********************************************************/
 
-/* PSEUDO CODICE
-1   implemento il FETCH
-2   il FETCH rende un valore (email in questo caso), e mi assicuro che possa essere utilizzata in una funzione che implementerò nel THEN
-3   dichiaro il primo Elemento HTML che andò ad usare, cioè il DIV che conterrà le Email (NODE)
-4   creo la FUNCTION che aggiungerà il NODE (email in questo caso) al mio DOM
-*/
 
 
 
-// DICHIARO GLI ELEMENTI HTML
+
+// Dichiaro la mia <ul> come Elemento HTML
 const emailList = document.getElementById('emailList');
-let addedEmail = document.createElement('li');
 
-addedEmail.classList.add('list-group-item');
-addedEmail.innerHTML=`
-<div class="row">
-    <div class="col-10 d-flex align-items-center">
-        <p class="m-0 text-primary"><i class="fa-solid fa-envelope"></i> INDIRIZZO_EMAIL</p>
-    </div>
-    <div class="col-2 d-flex justify-content-between align-items-center">
-        <button class="btn btn-sm btn-secondary">
-            Send message
-        </button>
+// Dichiaro la variabile che sarà poi creata tramite appendChild alla mia lista di Email
+let myItem = document.createElement('li');
 
-        <i class="fa-solid fa-trash text-secondary"></i>
-    </div>
-</div>
-`;
+// Dichiaro la variabile che stabilisce il numero di Email da aggiungere
+const emailNumber = 10;
 
 
+// Dichiaro la FUNCTION per aggiungere le Email alla lista
+let addEmail = ( (repetitions) => {
 
-fetch('https://flynn.boolean.careers/exercises/api/random/mail')
-    .then(response => response.json())
-    .then( (result) => {
-        console.log(result.response);
+    for (let i=0; i < repetitions; i++) {
 
-        // ALERT DI CONTROLLO
-        // alert(result.response);
-    })
+        // FETCH del valore tramite API
+        fetch('https://flynn.boolean.careers/exercises/api/random/mail')
+        .then(response => response.json())
+        .then( (result) => {
+
+        // Dichiaro il valore output del FETCH
+        let fetchOutput = result.response;
+
+        // Definisco CLASS + innerHTML del mio <li> (Email) da aggiungere
+        myItem.classList.add('list-group-item', 'my-2');
+        myItem.innerHTML=`
+        <div class="row">
+            <div class="col-10 d-flex align-items-center">
+                <p class="m-0 text-primary"><i class="fa-solid fa-envelope"></i> ${fetchOutput}</p>
+            </div>
+            <div class="col-2 d-flex justify-content-between align-items-center">
+                <button class="btn btn-sm btn-secondary">
+                    Send message
+                </button>
+                <i class="fa-solid fa-trash text-secondary"></i>
+            </div>
+        </div>
+        `;
+
+        // CREAZIONE NODE <li>
+        emailList.appendChild(myItem);
+
+        })
+    }
+    
+    
+
+})
 
 
-emailList.appendChild(addedEmail);
 
+addEmail(emailNumber);
