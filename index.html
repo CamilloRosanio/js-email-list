@@ -30,7 +30,10 @@
         <!-- paste here -->
 
     <!-- STYLE -->
-        <link rel="stylesheet" href="./css/style.css"> 
+        <link rel="stylesheet" href="./css/style.css">
+
+    <!-- FONT AWESOME LIBRARY -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- CSS MEDIAQUERY (Separato) -->
         <!-- ***FACOLTATIVO*** -->
@@ -72,21 +75,21 @@
 
             <!-- EMAIL LIST -->
             <section class="bg-light p-4">
+                
+                <!-- EMAIL NODE -->
                 <div class="row">
-                    <div class="col-8">
-                        email
+                    <div class="col-10 d-flex align-items-center">
+                        <p class="m-0 text-primary">Email</p>
                     </div>
-                    <div class="col-2 d-flex justify-content-end">
-                        <button>
+                    <div class="col-2 d-flex justify-content-between align-items-center">
+                        <button class="btn btn-sm btn-secondary">
                             Send message
                         </button>
-                    </div>
-                    <div class="col-2 d-flex justify-content-end">
-                        <button>
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+
+                        <i class="fa-solid fa-trash text-secondary"></i>
                     </div>
                 </div>
+                
             </section>
 
         </main>
